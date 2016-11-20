@@ -83,6 +83,25 @@ except AttributeError:
     # But, some distributions have a version of pyserial installed
     # in /usr/lib/python2.7/dist-packages/serial/ (e.g. 2.7.11 on Linux Mint 18)
     # that for some reason does not have these constants defined.
+    # This is because serialposix.py in those versions has a different style
+    # of import, that no longer imports the module globals from serialutil.py
+
+    #ON MINT:    pyserial VERSION = '3.0.1'
+    #mint@mint /usr/lib/python2.7/dist-packages/serial $ grep import serialposix.py
+    #import errno
+    #import fcntl
+    #import os
+    #import select
+    #import struct
+    #import sys
+    #import termios
+    #import time
+    #import serial
+    #from serial.serialutil import SerialBase, SerialException, to_bytes, portNotOpenError, writeTimeoutError
+    #
+    #ON MY EMBEDDED VERSION:   pyserial VERSION = '2.7'
+    #import sys, os, fcntl, termios, struct, select, errno, time
+    #from serial.serialutil import *
     #
     # This is what is in *my* packaged official serial/serialutil.py
     # PARITY_NONE, PARITY_EVEN, PARITY_ODD, PARITY_MARK, PARITY_SPACE = 'N', 'E', 'O', 'M', 'S'
