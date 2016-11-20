@@ -108,6 +108,11 @@ except AttributeError:
     # STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO = (1, 1.5, 2)
     # FIVEBITS, SIXBITS, SEVENBITS, EIGHTBITS = (5, 6, 7, 8)
 
+    # This is fixed in the latest pyserial (3.2.1)
+    # from serial.serialutil import *
+    # #~ SerialBase, SerialException, to_bytes, iterbytes
+
+
     s.parity   = 'N'
     s.databits = 8
     s.stopbits = 1

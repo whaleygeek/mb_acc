@@ -60,4 +60,8 @@ pyserial library. It seems that some pre-installed pyserial packages
 on some distributions have a subtly different API. Thanks to Andy
 for helping me debug this on his Linux Mint 18/python 2.7.11 setup
 
+In particular, pyserial 3.0.1 has this bug in it, but pyserial 3.2.1
+has the bug fixed. So, if you are using a pre-installed pyserial
+of around the 3.0.1 era, it's API is broken, and you should really
+update it to the latest version.
 
