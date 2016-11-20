@@ -2,6 +2,8 @@
 
 Get micro:bit accelerometer data
 
+![chart](data/graph.png)
+
 # Requirements
 
 Python 2
