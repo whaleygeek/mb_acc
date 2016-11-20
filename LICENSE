@@ -1,5 +1,9 @@
 MIT License
 
+Note: An embedded version of pyserial is included in this package,
+for convenience. That is covered by it's own license, which is inside
+the 'serial' folder.
+
 Copyright (c) 2016 David Whale
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
