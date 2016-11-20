@@ -52,3 +52,12 @@ When you have finished, CTRL-C or stop the python program.
 Import log.csv into a spreadsheet program or other charting program that
 can import and chart CSV files.
 
+
+# Errors?
+
+We've done some work recently to improve the error handling with the
+pyserial library. It seems that some pre-installed pyserial packages
+on some distributions have a subtly different API. Thanks to Andy
+for helping me debug this on his Linux Mint 18/python 2.7.11 setup
+
+
