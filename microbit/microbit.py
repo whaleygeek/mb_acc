@@ -23,6 +23,11 @@ USE_EMBEDDED_PYSERIAL = True
 BAUD = 115200
 
 if USE_EMBEDDED_PYSERIAL:
+    #NOTE: Because this adds the embedded pyserial at the end of the path,
+    #if there is already a (incompatible) pyserial in distpackages,
+    #that will be used instead. See notes further down about PARITY_NONE
+    #as that seems to be a breaking change that was made in the serial API
+    #at some time in the past.
     from os import sys, path
     thisdir = path.dirname(path.abspath(__file__))
     sys.path.append(thisdir)
@@ -60,9 +65,34 @@ else:
 
 s = serial.Serial(PORT)
 s.baudrate = BAUD
-s.parity   = serial.PARITY_NONE
-s.databits = serial.EIGHTBITS
-s.stopbits = serial.STOPBITS_ONE
+try:
+    print("note: Using embedded 'serial' library")
+    # The official pyserial API supports this via serialutil.py
+    # which is * imported by serialposix.py and serialwin.py
+    s.parity   = serial.PARITY_NONE
+    s.databits = serial.EIGHTBITS
+    s.stopbits = serial.STOPBITS_ONE
+
+except AttributeError:
+    print("note: Using system installed 'serial' library")
+    # But the sys.path fiddle above puts *my* packaged pyserial at the *end*
+    # of the sys.path, so if the distribution has pyserial installed, it
+    # will still use that one. That would be fine if the API's were controlled
+    # and non-breaking via all changes.
+    #
+    # But, some distributions have a version of pyserial installed
+    # in /usr/lib/python2.7/dist-packages/serial/ (e.g. 2.7.11 on Linux Mint 18)
+    # that for some reason does not have these constants defined.
+    #
+    # This is what is in *my* packaged official serial/serialutil.py
+    # PARITY_NONE, PARITY_EVEN, PARITY_ODD, PARITY_MARK, PARITY_SPACE = 'N', 'E', 'O', 'M', 'S'
+    # STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO = (1, 1.5, 2)
+    # FIVEBITS, SIXBITS, SEVENBITS, EIGHTBITS = (5, 6, 7, 8)
+
+    s.parity   = 'N'
+    s.databits = 8
+    s.stopbits = 1
+
 s.timeout = 0 # non blocking mode
 
 s.close()
